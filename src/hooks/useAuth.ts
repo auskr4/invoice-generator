@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import api, { login as apiLogin } from '../api/api'; // Import the api instance and login function
+import api, { login as apiLogin } from '../api/api';
 
 export interface User {
   id: string;
@@ -20,12 +20,12 @@ export const useAuth = () => {
 
   const storeToken = (token: string) => {
     localStorage.setItem('token', token);
-    api.defaults.headers.common['Authorization'] = `Bearer ${token}`; // Set token for all future requests
+    api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   };
 
   const removeToken = () => {
     localStorage.removeItem('token');
-    delete api.defaults.headers.common['Authorization']; // Remove token from future requests
+    delete api.defaults.headers.common['Authorization'];
   };
 
   const login = async (email: string, password: string) => {
@@ -52,6 +52,8 @@ export const useAuth = () => {
       setLoading(false);
       return;
     }
+
+    api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
     try {
       const response = await api.get('/protected');

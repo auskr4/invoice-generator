@@ -2,22 +2,24 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { useAuthContext } from "../contexts/AuthContext";
+import { ArrowUpRightIcon } from "@heroicons/react/24/outline";
 
 const Dashboard: React.FC = () => {
   const { user } = useAuthContext();
   const navigate = useNavigate();
 
   return (
-    <div className="bg-white rounded-lg shadow-sm p-6 h-full">
+    <div className="bg-white rounded-lg shadow-sm p-6 h-full border border-zinc-200">
       <div className="mb-6">
-        <h2 className="text-2xl font-bold">Welcome, {user?.email || 'User'}</h2>
+        <h2 className="text-base"><i>Welcome</i>, {user?.email || 'User'}</h2>
       </div>
       <div>
         <Button 
           onClick={() => navigate('/create-invoice')} 
-          className="w-full md:w-auto"
+          className="w-full md:w-auto text-xl"
+          variant={'ghost'}
         >
-          Create new invoice
+          To create a new invoice, click here <ArrowUpRightIcon className=" text-green-600 w-8 h-8 ml-2" />
         </Button>
       </div>
     </div>

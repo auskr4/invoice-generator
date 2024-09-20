@@ -14,7 +14,7 @@ const AccountSettings: React.FC = () => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm p-6 h-full">
+    <div className="bg-white rounded-lg shadow-sm p-6 h-full border border-zinc-200">
       <h1 className="text-2xl font-bold mb-6">Account Settings</h1>
       <div>
         <h2 className="text-sm text-gray-400 font-semibold mb-4">Update Your Information</h2>
