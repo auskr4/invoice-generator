@@ -7,6 +7,7 @@ import {
   HomeIcon,
   DocumentCurrencyDollarIcon,
   ArrowLeftStartOnRectangleIcon,
+  ArrowUturnLeftIcon,
 } from "@heroicons/react/24/outline";
 
 const Layout: React.FC = () => {
@@ -71,7 +72,16 @@ const Layout: React.FC = () => {
       </nav>
 
       {/* Main Content */}
-      <main className="flex-1 p-4 pt-4">
+      <main className="flex-1 p-4 pt-4 relative">
+        {location.pathname !== '/dashboard' && (
+          <Button
+            onClick={() => navigate('/dashboard')}
+            className="absolute -left-4 top-1/3 transform -translate-y-1/2 bg-gray-300 hover:bg-gray-400 rounded-full p-2"
+            variant="ghost"
+          >
+            <ArrowUturnLeftIcon className="h-6 w-6 text-gray-600" />
+          </Button>
+        )}
         <Outlet />
       </main>
     </div>

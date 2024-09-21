@@ -6,7 +6,7 @@ import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { PlusIcon, MinusIcon } from "@heroicons/react/24/outline";
+import { PlusIcon, MinusIcon, ArrowUturnLeftIcon } from "@heroicons/react/24/outline";
 
 interface LineItem {
   description: string;
@@ -97,11 +97,11 @@ const InvoiceForm: React.FC = () => {
   };
 
   return (
-    <div className="p-6">
-      <Button onClick={() => navigate('/dashboard')} className="mb-4">
+    <div className="">
+      {/* <Button onClick={() => navigate('/dashboard')} className="mb-4">
         Back to Dashboard
-      </Button>
-      <Card className="w-full max-w-4xl mx-auto">
+      </Button> */}
+      <Card className="w-full max-w-4xl p-6">
         <CardHeader>
           <CardTitle>Create New Invoice</CardTitle>
         </CardHeader>
