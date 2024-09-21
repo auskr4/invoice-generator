@@ -54,19 +54,8 @@ module.exports = {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
-        sans: [
-          "ui-sans-serif",
-          "system-ui",
-          "-apple-system",
-          "BlinkMacSystemFont",
-          "Segoe UI",
-          "Roboto",
-          "Helvetica Neue",
-          "Arial",
-          "Noto Sans",
-          "sans-serif",
-          ...fontFamily.sans,
-        ],
+        sans: ["Rubik", ...fontFamily.sans],
+        mono: ["Roboto Mono", ...fontFamily.mono],
       },
       keyframes: {
         "accordion-down": {

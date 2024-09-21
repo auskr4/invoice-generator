@@ -31,9 +31,9 @@ const Layout: React.FC = () => {
     <div className="flex h-screen bg-gray-100">
       {/* Side Navigation */}
       <nav className="w-60 bg-gray-100 py-4 pl-4">
-        <div className="flex items-center gap-x-2 mb-6">
+        <div className="flex items-center gap-x-4 mb-6">
           <div className="w-10 h-10 bg-gradient-to-br from-black to-indigo-400 rounded"></div>
-          <h1 className="text-lg font-bold">Invoice Generator</h1>
+          <h1 className="text-lg font-semibold">Invoice Generator</h1>
         </div>
         <div className="space-y-2 text-zinc-500">
           <Button
@@ -76,10 +76,10 @@ const Layout: React.FC = () => {
         {location.pathname !== '/dashboard' && (
           <Button
             onClick={() => navigate('/dashboard')}
-            className="absolute -left-4 top-1/3 transform -translate-y-1/2 bg-gray-300 hover:bg-gray-400 rounded-full p-2"
+            className="absolute -left-3 top-[24%] transform -translate-y-1/2 bg-gray-300 hover:bg-gray-400 rounded-full p-2 w-10 h-10 flex items-center justify-center shadow-lg"
             variant="ghost"
           >
-            <ArrowUturnLeftIcon className="h-6 w-6 text-gray-600" />
+            <ArrowUturnLeftIcon className="h-5 w-5 text-gray-600" />
           </Button>
         )}
         <Outlet />
