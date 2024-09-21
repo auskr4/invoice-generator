@@ -21,15 +21,15 @@ const Layout: React.FC = () => {
   const getButtonClasses = (path: string) => {
     return `w-full justify-start ${
       isSelected(path)
-        ? "bg-white border border-gray-200 shadow-sm"
-        : "hover:bg-gray-200"
+        ? "bg-indigo-200 text-indigo-500 border border-gray-200 shadow-sm"
+        : "hover:bg-indigo-200"
     }`;
   };
 
   return (
     <div className="flex h-screen bg-gray-100">
       {/* Side Navigation */}
-      <nav className="w-60 bg-gray-100 p-4">
+      <nav className="w-60 bg-gray-100 py-4 pl-4">
         <div className="flex items-center gap-x-2 mb-6">
           <div className="w-10 h-10 bg-gradient-to-br from-black to-indigo-400 rounded"></div>
           <h1 className="text-lg font-bold">Invoice Generator</h1>
@@ -61,7 +61,7 @@ const Layout: React.FC = () => {
           </Button>
           <Button
             onClick={logout}
-            className="w-full justify-start hover:bg-gray-200 gap-x-2"
+            className="w-full justify-start hover:bg-indigo-200 gap-x-2"
             variant="ghost"
           >
             <ArrowLeftStartOnRectangleIcon className="size-5" />
