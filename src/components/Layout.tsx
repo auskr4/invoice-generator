@@ -71,7 +71,7 @@ const Layout: React.FC = () => {
       </nav>
 
       {/* Main Content */}
-      <main className="flex-1 p-4 pt-6">
+      <main className="flex-1 p-4 pt-4">
         <Outlet />
       </main>
     </div>
