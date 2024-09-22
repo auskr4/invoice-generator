@@ -33,7 +33,7 @@ const Layout: React.FC = () => {
       <nav className="w-60 bg-gray-100 py-4 pl-4">
         <div className="flex items-center gap-x-4 mb-6">
           <div className="w-10 h-10 bg-gradient-to-br from-black to-indigo-400 rounded"></div>
-          <h1 className="text-lg font-semibold">Invoice Generator</h1>
+          <h1 className="text-lg font-semibold font-mono">Invoice Generator</h1>
         </div>
         <div className="space-y-2 text-zinc-500">
           <Button

@@ -47,7 +47,9 @@ const LandingPage: React.FC = () => {
               <div className="md:w-1/2 p-8 bg-white border-r">
                 <div className="flex items-center gap-x-2 mb-12">
                   <div className="w-10 h-10 bg-gradient-to-br from-black to-indigo-400 rounded"></div>
-                  <h1 className="text-2xl font-bold">Invoice Generator</h1>
+                  <h1 className="text-2xl font-bold font-mono">
+                    Invoice Generator
+                  </h1>
                 </div>
                 <h2 className="text-3xl font-semibold mb-4 text-mono">
                   Create Professional Invoices in Minutes
@@ -65,39 +67,6 @@ const LandingPage: React.FC = () => {
                 </Button>
 
                 {/* New divider */}
-                <div className="flex items-center my-8">
-                  <div className="flex-grow border-t border-gray-300"></div>
-                  <span className="flex-shrink mx-4 text-gray-500">Or</span>
-                  <div className="flex-grow border-t border-gray-300"></div>
-                </div>
-
-                {/* New benefits list */}
-                <div className="bg-indigo-100 rounded-lg p-2 mb-6">
-                  <div className="bg-indigo-50 rounded-lg px-2 py-4">
-                    <h3 className="text-lg font-semibold text-indigo-600 mb-3">
-                      Create an account to:
-                    </h3>
-                    <ul className="space-y-3">
-                      {accountBenefits.map((benefit, index) => (
-                        <li
-                          key={index}
-                          className="flex items-center text-indigo-800"
-                        >
-                          <CheckCircleIcon className="h-5 w-5 text-indigo-500 mr-2" />
-                          {benefit}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-
-                {/* Sign Up button */}
-                <Button
-                  onClick={() => navigate("/signup")}
-                  className="w-full bg-teal-500 text-white hover:bg-teal-100 hover:text-teal-500"
-                >
-                  Sign Up for an Account
-                </Button>
               </div>
 
               {/* Right side - Login Form */}
@@ -145,6 +114,39 @@ const LandingPage: React.FC = () => {
                       </a>
                     </p> */}
                   </CardContent>
+                  <div className="flex items-center my-8">
+                    <div className="flex-grow border-t border-gray-300"></div>
+                    <span className="flex-shrink mx-4 text-gray-500">Or</span>
+                    <div className="flex-grow border-t border-gray-300"></div>
+                  </div>
+
+                  {/* New benefits list */}
+                  {/* <div className="bg-indigo-100 rounded-lg p-2 mb-6">
+                    <div className="bg-indigo-50 rounded-lg px-2 py-4">
+                      <h3 className="text-lg font-semibold text-indigo-600 mb-3">
+                        Create an account to:
+                      </h3>
+                      <ul className="space-y-3">
+                        {accountBenefits.map((benefit, index) => (
+                          <li
+                            key={index}
+                            className="flex items-center text-indigo-800"
+                          >
+                            <CheckCircleIcon className="h-5 w-5 text-indigo-500 mr-2" />
+                            {benefit}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div> */}
+
+                  {/* Sign Up button */}
+                  <Button
+                    onClick={() => navigate("/signup")}
+                    className="w-full bg-teal-500 text-white hover:bg-teal-100 hover:text-teal-500"
+                  >
+                    Sign Up for an Account
+                  </Button>
                 </div>
               </div>
             </div>

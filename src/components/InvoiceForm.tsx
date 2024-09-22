@@ -124,7 +124,7 @@ const InvoiceForm: React.FC = () => {
     <div className="p-6">
       <Card className="w-full max-w-4xl mx-auto">
         <CardHeader>
-          <CardTitle>Create New Invoice</CardTitle>
+          <CardTitle className="font-mono">Create New Invoice</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
