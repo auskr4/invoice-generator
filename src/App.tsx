@@ -1,6 +1,7 @@
 import React from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import { useAuthContext } from "./contexts/AuthContext";
+import LandingPage from "./components/LandingPage";
 import LoginPage from "./components/LoginPage";
 import SignUpPage from "./components/SignUpPage";
 import Dashboard from "./components/Dashboard";
@@ -21,6 +22,10 @@ function App() {
     <div className="font-sans min-h-screen bg-gray-100">
       <Routes>
         <Route
+          path="/"
+          element={user ? <Navigate to="/dashboard" /> : <LandingPage />}
+        />
+        <Route
           path="/login"
           element={user ? <Navigate to="/dashboard" /> : <LoginPage />}
         />
@@ -36,7 +41,6 @@ function App() {
           <Route path="create-invoice" element={<InvoiceForm />} />
           <Route path="manage-invoices" element={<ManageInvoices />} />
           <Route path="account-settings" element={<AccountSettings />} />
-          <Route index element={<Navigate to="/dashboard" replace />} />
         </Route>
       </Routes>
     </div>
