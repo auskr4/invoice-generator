@@ -4,6 +4,14 @@ import { defineConfig } from "vite"
 
 export default defineConfig({
   plugins: [react()],
+  // build: {
+  //   rollupOptions: {
+  //     external: ['@react-pdf/renderer'],
+  //   },
+  // },
+  // optimizeDeps: {
+  //   exclude: ['@react-pdf/renderer'],
+  // },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
