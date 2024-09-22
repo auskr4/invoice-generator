@@ -56,6 +56,7 @@ module.exports = {
       fontFamily: {
         sans: ["Rubik", ...fontFamily.sans],
         mono: ["Roboto Mono", ...fontFamily.mono],
+        serif: ["Playfair Display", ...fontFamily.serif],
       },
       keyframes: {
         "accordion-down": {
