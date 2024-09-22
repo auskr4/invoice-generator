@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ArrowUpRightIcon } from "@heroicons/react/24/outline";
 
 const LandingPage: React.FC = () => {
   const navigate = useNavigate();
@@ -20,25 +21,25 @@ const LandingPage: React.FC = () => {
                   <div className="w-10 h-10 bg-gradient-to-br from-black to-indigo-400 rounded"></div>
                   <h1 className="text-2xl font-bold">Invoice Generator</h1>
                 </div>
-                <h2 className="text-3xl font-bold mb-4 text-mono">
+                <h2 className="text-3xl font-semibold mb-4 text-mono">
                   Create Professional Invoices in Minutes
                 </h2>
-                <p className="text-sm mb-8">
-                  Click below to generate invoices as a guest user or sign up to the right
+                <p className="text-sm text-gray-500 mb-8">
+                  Click below to generate invoices as a guest user or log in to the right.
                 </p>
                 <Button
                   onClick={() => navigate("/create-invoice")}
-                  className="bg-indigo-400 text-white hover:bg-indigo-100"
+                  className="bg-indigo-400 text-white hover:bg-indigo-100 hover:text-indigo-400"
                 >
-                  Generate Invoices Now
+                  Generate Invoices Now <ArrowUpRightIcon className=" text-white w-4 h-4 ml-2" />
                 </Button>
               </div>
 
-              {/* Right side - Sign Up Form */}
+              {/* Right side - Login Form */}
               <div className="md:w-1/2 p-8">
-                <Card>
+                <div>
                   <CardHeader>
-                    <CardTitle>Create an Account</CardTitle>
+                    <CardTitle>Log In to Your Account</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <form
@@ -52,20 +53,20 @@ const LandingPage: React.FC = () => {
                         <Input type="password" placeholder="Password" />
                       </div>
                       <Button type="submit" className="w-full">
-                        Sign Up
+                        Log In
                       </Button>
                     </form>
                     <p className="text-center mt-4 text-sm text-gray-600">
-                      Already have an account?{" "}
+                      Don't have an account but want one?{" "}
                       <a
-                        href="/login"
+                        href="/signup"
                         className="text-indigo-600 hover:underline"
                       >
-                        Log in
+                        Sign up
                       </a>
                     </p>
                   </CardContent>
-                </Card>
+                </div>
               </div>
             </div>
           </div>
