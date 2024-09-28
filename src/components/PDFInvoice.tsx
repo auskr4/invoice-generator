@@ -11,7 +11,6 @@ Font.register({
   ]
 });
 
-// Create styles
 const styles = StyleSheet.create({
   page: {
     flexDirection: 'column',
@@ -59,7 +58,7 @@ const styles = StyleSheet.create({
     color: '#3B82F6', // Blue color for section titles
   },
   table: {
-    display: 'table',
+    display: 'flex',
     width: 'auto',
     marginTop: 10,
     marginBottom: 10,
@@ -106,6 +105,14 @@ const styles = StyleSheet.create({
     fontSize: 10,
     fontWeight: 'bold',
   },
+  addressesContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 20,
+  },
+  addressSection: {
+    width: '45%', // Adjust this value to control the width of each section
+  },
 });
 
 interface PDFInvoiceProps {
@@ -129,20 +136,23 @@ const PDFInvoice: React.FC<PDFInvoiceProps> = ({ invoiceData }) => (
         </View>
       </View>
       
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>From:</Text>
-        <Text style={styles.value}>{invoiceData.fromName}</Text>
-        <Text style={styles.value}>{invoiceData.fromAddress}</Text>
-        <Text style={styles.value}>{invoiceData.fromPhone}</Text>
-        <Text style={styles.value}>{invoiceData.fromEmail}</Text>
-      </View>
-      
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>To:</Text>
-        <Text style={styles.value}>{invoiceData.toName}</Text>
-        <Text style={styles.value}>{invoiceData.toAddress}</Text>
-        <Text style={styles.value}>{invoiceData.toPhone}</Text>
-        <Text style={styles.value}>{invoiceData.toEmail}</Text>
+      {/* New layout for From and To sections */}
+      <View style={styles.addressesContainer}>
+        <View style={styles.addressSection}>
+          <Text style={styles.sectionTitle}>From:</Text>
+          <Text style={styles.value}>{invoiceData.fromName}</Text>
+          <Text style={styles.value}>{invoiceData.fromAddress}</Text>
+          <Text style={styles.value}>{invoiceData.fromPhone}</Text>
+          <Text style={styles.value}>{invoiceData.fromEmail}</Text>
+        </View>
+        
+        <View style={styles.addressSection}>
+          <Text style={styles.sectionTitle}>To:</Text>
+          <Text style={styles.value}>{invoiceData.toName}</Text>
+          <Text style={styles.value}>{invoiceData.toAddress}</Text>
+          <Text style={styles.value}>{invoiceData.toPhone}</Text>
+          <Text style={styles.value}>{invoiceData.toEmail}</Text>
+        </View>
       </View>
       
       <View style={styles.section}>

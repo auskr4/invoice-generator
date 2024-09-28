@@ -122,7 +122,7 @@ const InvoiceForm: React.FC = () => {
 
   return (
     <div className="p-6">
-      <Card className="w-full max-w-4xl mx-auto">
+      <Card className="w-full max-w-4xl">
         <CardHeader>
           <CardTitle className="font-mono">Create New Invoice</CardTitle>
         </CardHeader>

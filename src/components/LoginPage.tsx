@@ -32,13 +32,13 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle>Welcome to Invoice Generator</CardTitle>
-          <CardDescription>Please sign in to continue</CardDescription>
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-indigo-200 to-white">
+      <Card className="w-full max-w-md rounded-2xl bg-orange-100">
+        <CardHeader className="border-b border-gray-200 bg-orange-50 rounded-2xl">
+          <CardTitle className="font-serif">Welcome to Invoice Generator</CardTitle>
+          <CardDescription className="font-serif">Please sign in to continue</CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="pt-2 bg-orange-100">
           <form onSubmit={handleSubmit}>
             <div className="space-y-4">
               <div className="space-y-2">
@@ -50,6 +50,7 @@ const LoginPage: React.FC = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
+                  className="bg-orange-50"
                 />
               </div>
               <div className="space-y-2">
@@ -60,11 +61,12 @@ const LoginPage: React.FC = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
+                  className="bg-orange-50"
                 />
               </div>
             </div>
             {error && <p className="text-red-500 mt-2">{error}</p>}
-            <Button type="submit" className="w-full mt-6" disabled={isLoading}>
+            <Button type="submit" className="w-full mt-6 bg-indigo-600" disabled={isLoading}>
               {isLoading ? 'Signing In...' : 'Sign In'}
             </Button>
           </form>

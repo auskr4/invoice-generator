@@ -35,7 +35,7 @@ const Dashboard: React.FC = () => {
         <h3 className="text-lg font-semibold mb-2 font-serif">Recent Invoices</h3>
         <div className="flex overflow-x-auto pb-4 space-x-4">
           {recentInvoices.map((invoice) => (
-            <Card key={invoice.id} className="flex-shrink-0 w-64">
+            <Card key={invoice.id} className="flex-shrink-0 w-64 shadow-sm">
               <CardContent className="p-4">
                 <div className="flex justify-between items-center mb-2 border-b pb-2">
                   <span className="font-medium">{invoice.client}</span>
