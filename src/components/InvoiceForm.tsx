@@ -18,34 +18,76 @@ import {
   MinusIcon,
 } from "@heroicons/react/24/outline";
 import { LineItem, InvoiceData } from "@/types/invoice";
+import { useInvoiceContext } from "../contexts/InvoiceContext";
+
+// Sample Data
+const sampleInvoiceData: InvoiceData = {
+  title: "Sample Invoice",
+  invoiceNumber: "INV-001",
+  invoiceDate: new Date().toISOString().split('T')[0],
+  terms: "Net 30",
+  fromName: "Your Company Name",
+  fromEmail: "your@email.com",
+  fromAddress: "123 Your Street, Your City, Your Country",
+  fromPhone: "+1 234 567 8900",
+  toName: "Client Company",
+  toEmail: "client@email.com",
+  toAddress: "456 Client Street, Client City, Client Country",
+  toPhone: "+1 987 654 3210",
+  bankName: "Your Bank",
+  accountName: "Your Account Name",
+  bsb: "123456",
+  accountNumber: "1234567890",
+  lineItems: [
+    { description: "Sample Product", quantity: 2, price: 100, amount: 200 },
+    { description: "Sample Service", quantity: 1, price: 500, amount: 500 },
+  ],
+  subTotal: 700,
+  taxRate: 10,
+  taxAmount: 70,
+  discountPercentage: 5,
+  discountAmount: 35,
+  total: 735,
+};
 
 const InvoiceForm: React.FC = () => {
   const navigate = useNavigate();
-  const [invoiceData, setInvoiceData] = useState<InvoiceData>({
-    title: "",
-    invoiceNumber: "",
-    invoiceDate: new Date().toISOString().split('T')[0],
-    terms: "",
-    fromName: "",
-    fromEmail: "",
-    fromAddress: "",
-    fromPhone: "",
-    toName: "",
-    toEmail: "",
-    toAddress: "",
-    toPhone: "",
-    bankName: "",
-    accountName: "",
-    bsb: "",
-    accountNumber: "",
-    lineItems: [{ description: "", quantity: 1, price: 0, amount: 0 }],
-    subTotal: 0,
-    taxRate: 0,
-    taxAmount: 0,
-    discountPercentage: 0,
-    discountAmount: 0,
-    total: 0,
-  });
+  const { invoiceData: contextInvoiceData, setInvoiceData: setContextInvoiceData } = useInvoiceContext();
+  const [invoiceData, setInvoiceData] = useState<InvoiceData>(contextInvoiceData || sampleInvoiceData
+  //   {
+  //   title: "",
+  //   invoiceNumber: "",
+  //   invoiceDate: new Date().toISOString().split('T')[0],
+  //   terms: "",
+  //   fromName: "",
+  //   fromEmail: "",
+  //   fromAddress: "",
+  //   fromPhone: "",
+  //   toName: "",
+  //   toEmail: "",
+  //   toAddress: "",
+  //   toPhone: "",
+  //   bankName: "",
+  //   accountName: "",
+  //   bsb: "",
+  //   accountNumber: "",
+  //   lineItems: [{ description: "", quantity: 1, price: 0, amount: 0 }],
+  //   subTotal: 0,
+  //   taxRate: 0,
+  //   taxAmount: 0,
+  //   discountPercentage: 0,
+  //   discountAmount: 0,
+  //   total: 0,
+  // }
+);
+
+  
+
+  useEffect(() => {
+    if (contextInvoiceData) {
+      setInvoiceData(contextInvoiceData);
+    }
+  }, [contextInvoiceData]);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -62,7 +104,7 @@ const InvoiceForm: React.FC = () => {
     const newLineItems = [...invoiceData.lineItems];
     newLineItems[index] = { 
       ...newLineItems[index], 
-      [field]: value,
+      [field]: field === 'quantity' || field === 'price' ? Number(value) : value,
     };
     
     // Recalculate amount
@@ -109,20 +151,13 @@ const InvoiceForm: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Invoice data:", invoiceData);
-    // Here you would typically send this data to your backend
-    // After successful submission, navigate to the preview page
-    navigate("/preview-invoice", { state: { invoiceData } });
+    setContextInvoiceData(invoiceData);
+    navigate("/preview-invoice");
   };
-
-  const handlePreview = (e: React.FormEvent) => {
-    e.preventDefault();
-    navigate("/preview-invoice", { state: { invoiceData } });
-  }
 
   return (
     <div className="p-6">
-      <Card className="w-full max-w-4xl">
+      <Card className="w-full max-w-4xl mx-auto">
         <CardHeader>
           <CardTitle className="font-mono">Create New Invoice</CardTitle>
         </CardHeader>
@@ -446,9 +481,6 @@ const InvoiceForm: React.FC = () => {
             </div>
 
             <Button type="submit" className="w-full">
-              Generate Invoice
-            </Button>
-            <Button onClick={handlePreview} className="w-full">
               Preview Invoice
             </Button>
           </form>
