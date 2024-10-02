@@ -19,6 +19,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { LineItem, InvoiceData } from "@/types/invoice";
 import { useInvoiceContext } from "../contexts/InvoiceContext";
+import InvoicePreviewModal from "./InvoicePreviewModal";
 
 // Sample Data
 const sampleInvoiceData: InvoiceData = {
@@ -54,6 +55,7 @@ const InvoiceForm: React.FC = () => {
   const navigate = useNavigate();
   const { invoiceData: contextInvoiceData, setInvoiceData: setContextInvoiceData } = useInvoiceContext();
   const [invoiceData, setInvoiceData] = useState<InvoiceData>(contextInvoiceData || sampleInvoiceData
+    
   //   {
   //   title: "",
   //   invoiceNumber: "",
@@ -80,6 +82,7 @@ const InvoiceForm: React.FC = () => {
   //   total: 0,
   // }
 );
+const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false); // New state for controlling modal visibility
 
   
 
@@ -149,10 +152,25 @@ const InvoiceForm: React.FC = () => {
     calculateTotals();
   }, [invoiceData.lineItems, invoiceData.taxRate, invoiceData.discountPercentage]);
 
+  // const handleSubmit = (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   setContextInvoiceData(invoiceData);
+  //   navigate("/preview-invoice");
+  // };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setContextInvoiceData(invoiceData);
-    navigate("/preview-invoice");
+    setIsPreviewModalOpen(true); // Open the preview modal instead of navigating
+  };
+
+  const handleCloseModal = () => {
+    setIsPreviewModalOpen(false);
+  };
+
+  const handleAcceptInvoice = () => {
+    setIsPreviewModalOpen(false);
+    navigate("/download-options"); // Navigate to download/email options page
   };
 
   return (
@@ -486,6 +504,12 @@ const InvoiceForm: React.FC = () => {
           </form>
         </CardContent>
       </Card>
+      <InvoicePreviewModal
+        isOpen={isPreviewModalOpen}
+        onClose={handleCloseModal}
+        onAccept={handleAcceptInvoice}
+        invoiceData={invoiceData}
+      />
     </div>
   );
 };
