@@ -15,12 +15,22 @@ const DownloadOptions: React.FC = () => {
   console.log('invoiceData', invoiceData);
 
   const saveInvoice = async () => {
+    if (!invoiceData) {
+      console.error('No invoice data available');
+      return;
+    }
+
     setIsSaving(true);
     try {
       const token = localStorage.getItem('token');
+      const formattedInvoiceData = {
+        ...invoiceData,
+        invoiceDate: new Date(invoiceData.invoiceDate || ''),
+        // Add any other necessary transformations here
+      };
       const response = await axios.post(
         'http://localhost:5000/api/invoices/create',
-        invoiceData,
+        formattedInvoiceData,
         {
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -60,10 +70,10 @@ const DownloadOptions: React.FC = () => {
           <CardTitle>Download Options</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <Button onClick={handleDownloadPDF} className="w-full" disabled={isSaving}>
+          <Button onClick={handleDownloadPDF} className="w-full" disabled={isSaving || !invoiceData}>
             {isSaving ? 'Saving...' : 'Download as PDF'}
           </Button>
-          <Button onClick={handleSendEmail} className="w-full">
+          <Button onClick={handleSendEmail} className="w-full" disabled={!invoiceData}>
             Send via Email
           </Button>
           <Button onClick={handleEditInvoice} variant="outline" className="w-full">
