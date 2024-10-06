@@ -18,7 +18,13 @@ const InvoicePreviewModal: React.FC<InvoicePreviewModalProps> = ({
 }) => {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl">
+      <DialogContent
+        className="
+          w-full max-w-4xl
+          max-h-[calc(100vh-4rem)] 
+          overflow-y-auto
+        "
+      >
         <div className="p-8 bg-white rounded shadow" style={{ fontFamily: 'Roboto, sans-serif' }}>
           {/* Invoice Header */}
           <div className="text-right mb-6">

@@ -12,6 +12,7 @@ import ManageInvoices from "./components/ManageInvoices";
 import AccountSettings from "./components/AccountSettings";
 import Layout from "./components/Layout";
 import "./index.css";
+import DownloadOptions from "./components/DownloadOptions";
 
 function App() {
   const { user, loading } = useAuthContext();
@@ -45,6 +46,7 @@ function App() {
             <Route path="preview-invoice" element={<InvoicePreview />} />
             <Route path="manage-invoices" element={<ManageInvoices />} />
             <Route path="account-settings" element={<AccountSettings />} />
+            <Route path="download-options" element={<DownloadOptions />} />
           </Route>
         </Routes>
       </InvoiceProvider>
