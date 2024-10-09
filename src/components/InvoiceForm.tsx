@@ -20,6 +20,7 @@ import {
 import { LineItem, InvoiceData } from "@/types/invoice";
 import { useInvoiceContext } from "../contexts/InvoiceContext";
 import InvoicePreviewModal from "./InvoicePreviewModal";
+import axios from 'axios';
 
 // Sample Data
 const sampleInvoiceData: InvoiceData = {
@@ -168,9 +169,33 @@ const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false); // New stat
     setIsPreviewModalOpen(false);
   };
 
-  const handleAcceptInvoice = () => {
+  const handleAcceptInvoice = async () => {
     setIsPreviewModalOpen(false);
-    navigate("/download-options"); // Navigate to download/email options page
+    
+    try {
+      const token = localStorage.getItem('token');
+      const formattedInvoiceData = {
+        ...invoiceData,
+        invoiceDate: new Date(invoiceData.invoiceDate || ''),
+        // Add any other necessary transformations here
+      };
+      const response = await axios.post(
+        'http://localhost:5000/api/invoices/create',
+        formattedInvoiceData,
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      console.log('Invoice saved:', response.data);
+      // You can add a success notification here if needed
+      navigate("/download-options");
+    } catch (error) {
+      console.error('Error saving invoice:', error);
+      // You can add an error notification here if needed
+    }
   };
 
   return (
