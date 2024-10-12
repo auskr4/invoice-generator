@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { Dialog, DialogContent, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { InvoiceData, LineItem } from "@/types/invoice";
@@ -8,13 +8,15 @@ interface InvoicePreviewModalProps {
   onClose: () => void;
   onAccept: () => void;
   invoiceData: InvoiceData;
+  isExistingInvoice: boolean;
 }
 
 const InvoicePreviewModal: React.FC<InvoicePreviewModalProps> = ({
   isOpen,
   onClose,
   onAccept,
-  invoiceData
+  invoiceData,
+  isExistingInvoice,
 }) => {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -25,7 +27,10 @@ const InvoicePreviewModal: React.FC<InvoicePreviewModalProps> = ({
           overflow-y-auto
         "
       >
-        <div className="p-8 bg-white rounded shadow" style={{ fontFamily: 'Roboto, sans-serif' }}>
+        <div
+          className="p-8 bg-white rounded shadow"
+          style={{ fontFamily: "Roboto, sans-serif" }}
+        >
           {/* Invoice Header */}
           <div className="text-right mb-6">
             <h1 className="text-3xl font-bold text-blue-600 mb-2">INVOICE</h1>
@@ -64,7 +69,9 @@ const InvoicePreviewModal: React.FC<InvoicePreviewModalProps> = ({
 
           {/* Bank Details */}
           <div className="mb-8">
-            <h2 className="text-xl font-bold text-blue-600 mb-2">Bank Details:</h2>
+            <h2 className="text-xl font-bold text-blue-600 mb-2">
+              Bank Details:
+            </h2>
             <p>Bank: {invoiceData.bankName}</p>
             <p>Account Name: {invoiceData.accountName}</p>
             <p>BSB: {invoiceData.bsb}</p>
@@ -75,10 +82,18 @@ const InvoicePreviewModal: React.FC<InvoicePreviewModalProps> = ({
           <table className="w-full mb-8">
             <thead>
               <tr className="bg-gray-100">
-                <th className="text-left p-2 font-bold text-gray-700">Description</th>
-                <th className="text-right p-2 font-bold text-gray-700">Quantity</th>
-                <th className="text-right p-2 font-bold text-gray-700">Price</th>
-                <th className="text-right p-2 font-bold text-gray-700">Amount</th>
+                <th className="text-left p-2 font-bold text-gray-700">
+                  Description
+                </th>
+                <th className="text-right p-2 font-bold text-gray-700">
+                  Quantity
+                </th>
+                <th className="text-right p-2 font-bold text-gray-700">
+                  Price
+                </th>
+                <th className="text-right p-2 font-bold text-gray-700">
+                  Amount
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -100,11 +115,15 @@ const InvoicePreviewModal: React.FC<InvoicePreviewModalProps> = ({
               <span>${invoiceData.subTotal.toFixed(2)}</span>
             </div>
             <div className="flex justify-between mb-2">
-              <span className="font-bold text-gray-700">Tax ({invoiceData.taxRate}%):</span>
+              <span className="font-bold text-gray-700">
+                Tax ({invoiceData.taxRate}%):
+              </span>
               <span>${invoiceData.taxAmount.toFixed(2)}</span>
             </div>
             <div className="flex justify-between mb-2">
-              <span className="font-bold text-gray-700">Discount ({invoiceData.discountPercentage}%):</span>
+              <span className="font-bold text-gray-700">
+                Discount ({invoiceData.discountPercentage}%):
+              </span>
               <span>${invoiceData.discountAmount.toFixed(2)}</span>
             </div>
             <div className="flex justify-between font-bold text-lg border-t pt-2">
@@ -114,8 +133,12 @@ const InvoicePreviewModal: React.FC<InvoicePreviewModalProps> = ({
           </div>
         </div>
         <DialogFooter>
-          <Button onClick={onClose} variant="outline">Edit</Button>
-          <Button onClick={onAccept}>Accept</Button>
+          <Button onClick={onClose} variant="outline">
+            Edit
+          </Button>
+          <Button onClick={onAccept}>
+            {isExistingInvoice ? "Update Invoice" : "Create Invoice"}
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

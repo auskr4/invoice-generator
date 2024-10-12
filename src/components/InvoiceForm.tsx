@@ -13,20 +13,17 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  PlusIcon,
-  MinusIcon,
-} from "@heroicons/react/24/outline";
+import { PlusIcon, MinusIcon } from "@heroicons/react/24/outline";
 import { LineItem, InvoiceData } from "@/types/invoice";
 import { useInvoiceContext } from "../contexts/InvoiceContext";
 import InvoicePreviewModal from "./InvoicePreviewModal";
-import axios from 'axios';
+import { createInvoice, updateInvoice } from "@/api/api";
 
 // Sample Data
 const sampleInvoiceData: InvoiceData = {
   title: "Sample Invoice",
   invoiceNumber: "INV-001",
-  invoiceDate: new Date().toISOString().split('T')[0],
+  invoiceDate: new Date().toISOString().split("T")[0],
   terms: "Net 30",
   fromName: "Your Company Name",
   fromEmail: "your@email.com",
@@ -54,38 +51,23 @@ const sampleInvoiceData: InvoiceData = {
 
 const InvoiceForm: React.FC = () => {
   const navigate = useNavigate();
-  const { invoiceData: contextInvoiceData, setInvoiceData: setContextInvoiceData } = useInvoiceContext();
-  const [invoiceData, setInvoiceData] = useState<InvoiceData>(contextInvoiceData || sampleInvoiceData
-    
-  //   {
-  //   title: "",
-  //   invoiceNumber: "",
-  //   invoiceDate: new Date().toISOString().split('T')[0],
-  //   terms: "",
-  //   fromName: "",
-  //   fromEmail: "",
-  //   fromAddress: "",
-  //   fromPhone: "",
-  //   toName: "",
-  //   toEmail: "",
-  //   toAddress: "",
-  //   toPhone: "",
-  //   bankName: "",
-  //   accountName: "",
-  //   bsb: "",
-  //   accountNumber: "",
-  //   lineItems: [{ description: "", quantity: 1, price: 0, amount: 0 }],
-  //   subTotal: 0,
-  //   taxRate: 0,
-  //   taxAmount: 0,
-  //   discountPercentage: 0,
-  //   discountAmount: 0,
-  //   total: 0,
-  // }
-);
-const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false); // New state for controlling modal visibility
+  const {
+    invoiceData: contextInvoiceData,
+    setInvoiceData: setContextInvoiceData,
+    invoiceId,
+    setInvoiceId,
+    invoiceStatus,
+    setInvoiceStatus,
+    clearInvoiceData,
+  } = useInvoiceContext();
 
-  
+  const [invoiceData, setInvoiceData] = useState<InvoiceData>(
+    contextInvoiceData || sampleInvoiceData
+  );
+  const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
+  // const [isExistingInvoice, setIsExistingInvoice] = useState(false);
+
+  console.log("invoiceId", invoiceId);
 
   useEffect(() => {
     if (contextInvoiceData) {
@@ -97,7 +79,9 @@ const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false); // New stat
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setInvoiceData((prev) => ({ ...prev, [name]: value }));
+    const newInvoiceData = { ...invoiceData, [name]: value };
+    setInvoiceData(newInvoiceData);
+    setContextInvoiceData(newInvoiceData);
   };
 
   const handleLineItemChange = (
@@ -106,63 +90,74 @@ const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false); // New stat
     value: string | number
   ) => {
     const newLineItems = [...invoiceData.lineItems];
-    newLineItems[index] = { 
-      ...newLineItems[index], 
-      [field]: field === 'quantity' || field === 'price' ? Number(value) : value,
+    newLineItems[index] = {
+      ...newLineItems[index],
+      [field]:
+        field === "quantity" || field === "price" ? Number(value) : value,
     };
-    
+
     // Recalculate amount
-    newLineItems[index].amount = newLineItems[index].quantity * newLineItems[index].price;
-    
-    setInvoiceData((prev) => ({ ...prev, lineItems: newLineItems }));
+    newLineItems[index].amount =
+      newLineItems[index].quantity * newLineItems[index].price;
+
+    const newInvoiceData = { ...invoiceData, lineItems: newLineItems };
+    setInvoiceData(newInvoiceData);
+    setContextInvoiceData(newInvoiceData);
   };
 
+
   const addLineItem = () => {
-    setInvoiceData((prev) => ({
-      ...prev,
+    const newInvoiceData = {
+      ...invoiceData,
       lineItems: [
-        ...prev.lineItems,
+        ...invoiceData.lineItems,
         { description: "", quantity: 1, price: 0, amount: 0 },
       ],
-    }));
+    };
+    setInvoiceData(newInvoiceData);
+    setContextInvoiceData(newInvoiceData);
   };
 
   const removeLineItem = (index: number) => {
-    setInvoiceData((prev) => ({
-      ...prev,
-      lineItems: prev.lineItems.filter((_, i) => i !== index),
-    }));
+    const newInvoiceData = {
+      ...invoiceData,
+      lineItems: invoiceData.lineItems.filter((_, i) => i !== index),
+    };
+    setInvoiceData(newInvoiceData);
+    setContextInvoiceData(newInvoiceData);
   };
 
   const calculateTotals = () => {
-    const subTotal = invoiceData.lineItems.reduce((sum, item) => sum + item.amount, 0);
+    const subTotal = invoiceData.lineItems.reduce(
+      (sum, item) => sum + item.amount,
+      0
+    );
     const taxAmount = subTotal * (invoiceData.taxRate / 100);
     const discountAmount = subTotal * (invoiceData.discountPercentage / 100);
     const total = subTotal + taxAmount - discountAmount;
 
-    setInvoiceData((prev) => ({
-      ...prev,
+    const newInvoiceData = {
+      ...invoiceData,
       subTotal,
       taxAmount,
       discountAmount,
       total,
-    }));
+    };
+    setInvoiceData(newInvoiceData);
+    setContextInvoiceData(newInvoiceData);
   };
 
   useEffect(() => {
     calculateTotals();
-  }, [invoiceData.lineItems, invoiceData.taxRate, invoiceData.discountPercentage]);
-
-  // const handleSubmit = (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   setContextInvoiceData(invoiceData);
-  //   navigate("/preview-invoice");
-  // };
+  }, [
+    invoiceData.lineItems,
+    invoiceData.taxRate,
+    invoiceData.discountPercentage,
+  ]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setContextInvoiceData(invoiceData);
-    setIsPreviewModalOpen(true); // Open the preview modal instead of navigating
+    setIsPreviewModalOpen(true);
   };
 
   const handleCloseModal = () => {
@@ -171,29 +166,21 @@ const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false); // New stat
 
   const handleAcceptInvoice = async () => {
     setIsPreviewModalOpen(false);
-    
+
     try {
-      const token = localStorage.getItem('token');
-      const formattedInvoiceData = {
-        ...invoiceData,
-        invoiceDate: new Date(invoiceData.invoiceDate || ''),
-        // Add any other necessary transformations here
-      };
-      const response = await axios.post(
-        'http://localhost:5000/api/invoices/create',
-        formattedInvoiceData,
-        {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        }
-      );
-      console.log('Invoice saved:', response.data);
-      // You can add a success notification here if needed
+      let response;
+      if (invoiceId) {
+        response = await updateInvoice(invoiceId, invoiceData);
+      } else {
+        response = await createInvoice(invoiceData);
+      }
+
+      setInvoiceId(response.invoice._id);
+      setInvoiceStatus(response.invoice.status);
+      // clearInvoiceData();  // Clear the invoice data after successful creation/update
       navigate("/download-options");
     } catch (error) {
-      console.error('Error saving invoice:', error);
+      console.error("Error saving invoice:", error);
       // You can add an error notification here if needed
     }
   };
@@ -202,7 +189,9 @@ const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false); // New stat
     <div className="p-6">
       <Card className="w-full max-w-4xl mx-auto">
         <CardHeader>
-          <CardTitle className="font-mono">Create New Invoice</CardTitle>
+          <CardTitle className="font-mono">
+            {invoiceId? "Edit Invoice" : "Create New Invoice"}
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -449,9 +438,7 @@ const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false); // New stat
                           step="0.01"
                         />
                       </TableCell>
-                      <TableCell>
-                        ${item.amount.toFixed(2)}
-                      </TableCell>
+                      <TableCell>${item.amount.toFixed(2)}</TableCell>
                       <TableCell>
                         <Button
                           type="button"
@@ -524,7 +511,7 @@ const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false); // New stat
             </div>
 
             <Button type="submit" className="w-full">
-              Preview Invoice
+              {invoiceId ? "Update Invoice" : "Preview Invoice"}
             </Button>
           </form>
         </CardContent>
@@ -534,6 +521,7 @@ const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false); // New stat
         onClose={handleCloseModal}
         onAccept={handleAcceptInvoice}
         invoiceData={invoiceData}
+        isExistingInvoice={!!invoiceId}
       />
     </div>
   );

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { PDFViewer } from '@react-pdf/renderer';
 import PDFInvoice from "./PDFInvoice";
-import EmailModal from "./emailModal";
+// import EmailModal from "./emailModal";
 import { downloadPDF } from "@/utils/pdfUtils";
 import { useInvoiceContext } from "../contexts/InvoiceContext";
 import api from '../api/api';
@@ -53,11 +53,11 @@ const InvoicePreview: React.FC = () => {
         <Button onClick={handleDownload}>Download PDF</Button>
         <Button onClick={() => setIsEmailModalOpen(true)}>Email Invoice</Button>
       </div>
-      <EmailModal
+      {/* <EmailModal
         isOpen={isEmailModalOpen}
         onClose={() => setIsEmailModalOpen(false)}
         onSend={handleEmailSend}
-      />
+      /> */}
     </div>
   );
 };

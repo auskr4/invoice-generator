@@ -12,3 +12,22 @@ export const downloadPDF = async (invoiceData: InvoiceData) => {
   link.click();
   URL.revokeObjectURL(url);
 };
+
+export const generateAndDownloadPDF = async (invoiceData: InvoiceData) => {
+  try {
+    console.log('trying inside generateAndDownloadPDF');
+    const blob = await pdf(<PDFInvoice invoiceData={invoiceData} />).toBlob();
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `invoice-${invoiceData.invoiceNumber}.pdf`;
+
+    document.body.appendChild(link);;
+    link.click();
+    document.body.removeChild(link);
+
+    URL.revokeObjectURL(url);
+  } catch (error) {
+    console.error("Error generating PDF:", error);
+  }
+}
